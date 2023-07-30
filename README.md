@@ -1,5 +1,4 @@
 # Divekick
-Using ML to play the objectively best fighting game, Divekick
 
 You'll need python to play, I'm not keeping track of library dependencies
 
