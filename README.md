@@ -7,3 +7,5 @@ Simply enter versus mode, pick Dive for both players, pick Kick gem for both pla
 
 Only works on Windows right now.
 The program sends keypresses to the active window, so make sure that is Divekick.
+
+To end the program prematurely, simply pause and use ctrl-C to kill the process in the shell (yes I am a good programmer stop looking at me)
