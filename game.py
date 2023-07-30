@@ -14,6 +14,3 @@ class Game:
         self.dk = Pymem('DivekickD3D11')
         hnd = self.dk.process_handle
         self.base = module_from_name(hnd, 'DivekickD3D11.exe').lpBaseOfDll
-        time.sleep(1)
-
-g = Game()
