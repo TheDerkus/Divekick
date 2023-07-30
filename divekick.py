@@ -24,10 +24,11 @@ class StateHelpers:
         del s['p2wins']
         del s['is_paused']
         del s['can_move']
+        del s['time']
         return s
 
     def fight_over(s):
-        return (not s['can_move']) and s['time'] < 20
+        return not s['can_move'] and s['time'] < 20
 
     def winner(s):
         if s['p1wins'] == 1:
