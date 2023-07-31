@@ -12,3 +12,5 @@ To end the program prematurely, simply pause and use ctrl-C to kill the process 
 The program will play out 5 rounds, ignoring ties, and will control both players.
 
 It will also save data about the rounds to a folder called 'tmp', which will reside in the same directory as the python files.
+
+The program uses j, k, d, and f for p1 and p2 controls. Change the corresponding variables in divekick.py to adjust.
