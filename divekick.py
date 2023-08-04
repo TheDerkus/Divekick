@@ -40,7 +40,6 @@ class StateHelpers:
 class Play:
 
     def process_state(s):
-        FIGHT.reset_meter()
         p1action = [[], [P1DIVE], [P1KICK]][randint(0, 2)]
         p2action = [[], [P2DIVE], [P2KICK]][randint(0, 2)]
         todo = p1action + p2action
