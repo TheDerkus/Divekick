@@ -1,6 +1,6 @@
 import time
 from random import randint
-from pydirectinput import press, keyDown, keyUp
+from pydirectinput import press
 import pydirectinput
 import pickle
 import game
