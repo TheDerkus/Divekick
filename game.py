@@ -18,5 +18,3 @@ class Game:
 
     def is_active(self):
         return GetWindowText(GetForegroundWindow()) == self.TITLE
-
-g = Game()
