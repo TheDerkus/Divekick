@@ -1,16 +1,22 @@
-from win32gui import FindWindow, SetForegroundWindow, ShowWindow
-import time
+from win32gui import FindWindow, SetForegroundWindow, ShowWindow, GetForegroundWindow, GetWindowText
 from win32con import SW_MAXIMIZE
-import pymem
 from pymem import Pymem
 from pymem.process import module_from_name
 
 class Game:
 
+    TITLE = 'Divekick (D3D11)'
+    EXE = 'DivekickD3D11'
+
     def __init__(self):
-        dh = FindWindow(None, 'Divekick (D3D11)')
+        dh = FindWindow(None, self.TITLE)
         ShowWindow(dh, SW_MAXIMIZE)
         SetForegroundWindow(dh)
-        self.dk = Pymem('DivekickD3D11')
+        self.dk = Pymem(self.EXE)
         hnd = self.dk.process_handle
-        self.base = module_from_name(hnd, 'DivekickD3D11.exe').lpBaseOfDll
+        self.base = module_from_name(hnd, self.EXE + '.exe').lpBaseOfDll
+
+    def is_active(self):
+        return GetWindowText(GetForegroundWindow()) == self.TITLE
+
+g = Game()
