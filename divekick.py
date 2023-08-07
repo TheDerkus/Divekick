@@ -1,6 +1,5 @@
-import time
-from random import randint
-from pydirectinput import press
+from time import time as gettime
+from random import choice
 import pydirectinput
 import pickle
 import game
@@ -11,68 +10,37 @@ P1KICK = 'k'
 P2DIVE = 'd'
 P2KICK = 'f'
 
-GAME = game.Game()
-FIGHT = fight.Fight(GAME)
+ROUNDS = 5
 
 pydirectinput.PAUSE = .005
 
+GAME = game.Game()
+FIGHT = fight.Fight(GAME)
 
-class StateHelpers:
+class Match:
 
-    def trim(s):
-        del s['p1wins']
-        del s['p2wins']
-        del s['is_paused']
-        del s['can_move']
-        del s['time']
-        return s
+    def should_act(s):
+        return not s['is_paused'] and GAME.is_active() and s['can_move']
 
-    def fight_over(s):
-        return not s['can_move'] and s['time'] < 20
-
-    def winner(s):
-        if s['p1wins'] == 1:
-            return 0
-        if s['p2wins'] == 1:
-            return 1
-        return None
-    
-class Play:
-
-    def process_state(s):
-        p1action = [[], [P1DIVE], [P1KICK]][randint(0, 2)]
-        p2action = [[], [P2DIVE], [P2KICK]][randint(0, 2)]
-        todo = p1action + p2action
-        press(todo, _pause=False)
-        return (StateHelpers.trim(s), ''.join(todo))
+    def action(s):
+        if not Match.should_act(s):
+            return ''
+        p1action = choice(['', P1DIVE, P1KICK])
+        p2action = choice(['', P2DIVE, P2KICK])
+        return p1action + p2action
 
     def play():
-        d = {}
-        while True:
+        d = []
+        s = {'p1wins': 0, 'p2wins': 0}
+        while max(s['p1wins'], s['p2wins']) < ROUNDS:
             s = FIGHT.state()
-            if s['is_paused']:
-                continue
-            if StateHelpers.fight_over(s):
-                break
-            if not s['can_move']:
-                continue
-            d[time.time()] = Play.process_state(s)
-        d['winner'] = Play.winner()
+            todo = Match.action(s)
+            pydirectinput.press(todo, _pause=False)
+            d.append((gettime(), s, todo))
         return d
 
-    def winner():
-        s = FIGHT.state()
-        while FIGHT.state()['time'] != 20:
-            s = FIGHT.state()
-        return StateHelpers.winner(s)
-
-def save_data(d, i):
-    with open('./tmp/output'+str(i)+'.txt', 'xb') as file:
+def save_data(d):
+    with open('./tmp/output.txt', 'wb') as file:
         pickle.dump(d, file)
 
-for i in range (5):
-    d = Play.play()
-    if d['winner'] == None:
-        continue
-    save_data(d, i)
-    FIGHT.reset_wins()
+save_data(Match.play())
