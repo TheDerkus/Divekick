@@ -9,7 +9,7 @@ The program sends keypresses to the active window, so make sure that window is D
 
 To end the program prematurely, simply pause and use ctrl-C to kill the process in the shell (yes I am a good programmer stop looking at me).
 
-The program will play out 5 rounds, ignoring ties, and will control both players.
+The program will play until one player gets five wins. It will control both players.
 
 It will also save data about the rounds to a folder called 'tmp', which will reside in the same directory as the python files.
 
