@@ -1,46 +1,33 @@
-from time import time as gettime
 from random import choice
 import pydirectinput
-import pickle
-import game
-import fight
+from game import Game, P1DIVE, P1KICK, P2DIVE, P2KICK
+from fight import Fight
 
-P1DIVE = 'j'
-P1KICK = 'k'
-P2DIVE = 'd'
-P2KICK = 'f'
-
-ROUNDS = 5
-
+MAX_WINS = 5
 pydirectinput.PAUSE = .005
-
-GAME = game.Game()
-FIGHT = fight.Fight(GAME)
 
 class Match:
 
-    def should_act(s):
-        return not s['is_paused'] and GAME.is_active() and s['can_move']
+    def __init__(self, game):
+        self.game = game
+        self.fight = Fight(self.game)
+        
+    def should_act(self, s):
+        return not s['is_paused'] and self.game.is_active() and s['can_move']
 
-    def action(s):
-        if not Match.should_act(s):
+    def action(self, s):
+        if not self.should_act(s):
             return ''
         p1action = choice(['', P1DIVE, P1KICK])
         p2action = choice(['', P2DIVE, P2KICK])
         return p1action + p2action
 
-    def play():
-        d = []
+    def play(self):
         s = {'p1wins': 0, 'p2wins': 0}
-        while max(s['p1wins'], s['p2wins']) < ROUNDS:
-            s = FIGHT.state()
-            todo = Match.action(s)
+        while max(s['p1wins'], s['p2wins']) < MAX_WINS:
+            s = self.fight.state()
+            todo = self.action(s)
             pydirectinput.press(todo, _pause=False)
-            d.append((gettime(), s, todo))
-        return d
+        return s['p1wins']
 
-def save_data(d):
-    with open('./tmp/output.txt', 'wb') as file:
-        pickle.dump(d, file)
-
-save_data(Match.play())
+Match(Game()).play()
