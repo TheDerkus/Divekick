@@ -28,6 +28,6 @@ class Match:
             s = self.fight.state()
             todo = self.action(s)
             pydirectinput.press(todo, _pause=False)
-        return s['p1wins']
+        return s['p1wins'] - s['p2wins'] + 5
 
 Match(Game()).play()
