@@ -2,13 +2,9 @@ from random import choice
 import pydirectinput
 from game import Game
 from fight import Fight
+from common import MAX_WINS, P1DIVE, P1KICK, P2DIVE, P2KICK
 
-MAX_WINS = 5
 pydirectinput.PAUSE = .005
-P1DIVE = 'j'
-P1KICK = 'k'
-P2DIVE = 'd'
-P2KICK = 'f'
 
 class Match:
 
