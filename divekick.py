@@ -1,10 +1,14 @@
 from random import choice
 import pydirectinput
-from game import Game, P1DIVE, P1KICK, P2DIVE, P2KICK
+from game import Game
 from fight import Fight
 
 MAX_WINS = 5
 pydirectinput.PAUSE = .005
+P1DIVE = 'j'
+P1KICK = 'k'
+P2DIVE = 'd'
+P2KICK = 'f'
 
 class Match:
 
@@ -13,7 +17,7 @@ class Match:
         self.fight = Fight(self.game)
         
     def should_act(self, s):
-        return not s['is_paused'] and self.game.is_active() and s['can_move']
+        return not s['paused'] and self.game.is_active() and s['playtime']
 
     def action(self, s):
         if not self.should_act(s):
