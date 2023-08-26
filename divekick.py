@@ -30,4 +30,5 @@ class Match:
             pydirectinput.press(todo, _pause=False)
         return s['p1wins'] - s['p2wins'] + 5
 
-Match(Game()).play()
+s = Match(Game()).play()
+print(s)

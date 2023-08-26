@@ -14,6 +14,8 @@ class Fight:
         ([0x4, 0xC, 0x50, 0x4, 0x3F0, 0x71C], 0x2FED8C), # p2wins
         ([0x4, 0xC, 0x50, 0x6BC], 0x002FED8C), # p1meter
         ([0x4, 0xC, 0x50, 0x528, 0x740], 0x002FED8C), # p2meter
+        ([0x4, 0xC, 0x4C, 0x0, 0x18], 0x002FED8C), # round
+        ([0x4, 0xC, 0x48, 0x4, 0x30], 0x002FED8C), # KO
     ]
 
     def __init__(self, g):
@@ -56,4 +58,6 @@ class Fight:
             'paused': bool_(ads[8]),
             'p1wins': int_(ads[9]),
             'p2wins': int_(ads[10]),
+            'round': int_(ads[13]),
+            'KO': bool_(ads[14]),
         }
