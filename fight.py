@@ -41,7 +41,6 @@ class Fight:
         self.dk.write_int(ads[10], 0)
 
     def state(self):
-        self.reset_meter()
         ads = self.addresses
         int_ = self.dk.read_int
         float_ = self.dk.read_float

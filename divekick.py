@@ -2,7 +2,8 @@ from random import choice
 import pydirectinput
 from game import Game
 from fight import Fight
-from common import MAX_WINS, P1DIVE, P1KICK, P2DIVE, P2KICK
+from common import P1DIVE, P1KICK, P2DIVE, P2KICK
+from gamestate import GameState
 
 pydirectinput.PAUSE = .005
 
@@ -13,7 +14,7 @@ class Match:
         self.fight = Fight(self.game)
         
     def should_act(self, s):
-        return not s['paused'] and self.game.is_active() and s['playtime']
+        return self.game.active() and s.playtime()
 
     def action(self, s):
         if not self.should_act(s):
@@ -23,12 +24,12 @@ class Match:
         return p1action + p2action
 
     def play(self):
-        s = {'p1wins': 0, 'p2wins': 0}
-        while max(s['p1wins'], s['p2wins']) < MAX_WINS:
-            s = self.fight.state()
+        s = GameState({'p1wins': 0, 'p2wins': 0})
+        while not s.matchend():
+            s = GameState(self.fight.state())
             todo = self.action(s)
             pydirectinput.press(todo, _pause=False)
-        return s['p1wins'] - s['p2wins'] + 5
+        return s.score()
 
 s = Match(Game()).play()
 print(s)

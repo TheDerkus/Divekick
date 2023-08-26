@@ -16,5 +16,5 @@ class Game:
         hnd = self.dk.process_handle
         self.base = module_from_name(hnd, self.EXE + '.exe').lpBaseOfDll
 
-    def is_active(self):
+    def active(self):
         return GetWindowText(GetForegroundWindow()) == self.TITLE
